@@ -1,0 +1,7 @@
+# Adds every checkpoint to the code-only image. Build with a context directory
+# that contains weights/{task1,task2,task3,external/optic_disc,external/r2v2}, e.g.
+#   docker build -f docker/Dockerfile.weights-main -t choiclara9/gave2-kirby:prelim-7.95236-weights-main CONTEXT_DIR
+# The GAVE2 data is never embedded; it is mounted at run time.
+FROM choiclara9/gave2-kirby:prelim-7.95236-e2e-main
+
+COPY weights/ /weights/

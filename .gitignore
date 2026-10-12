@@ -1,0 +1,21 @@
+# Challenge data, weights and generated outputs are never committed.
+data/
+weights/
+work/
+kirby_output/
+r2v2_out/
+out/
+__training/
+*.pth
+*.pt
+*.ckpt
+*.zip
+*.png
+*.jpg
+*.jpeg
+*.pdf
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/

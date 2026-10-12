@@ -1,0 +1,14 @@
+**
+!docker/requirements-inference.txt
+!docker/requirements-r2v2.txt
+!docker/entrypoint.sh
+!docker/entrypoint-r2v2.sh
+!pipeline/
+!model.py
+!preprocessing.py
+!utils.py
+!get_predictions.py
+!ensemble_predictions.py
+!get_biomarker_kaggle.py
+!build_experimental_submission.py
+!build_joint_exploration_submission.py
