@@ -76,7 +76,24 @@ The result is `$OUT_DIR/main/kirby.zip` (`Task1/*.png`, `Task2/*.png` with R = a
 4c19a97503668ef003c992edcbf76ade644c40903b683394347c0214db51306c
 ```
 
-The pipeline expects 50 cases named `g_051` … `g_100`. For other data, process batches of 50 renamed to these names, add `--allow-hash-mismatch` to `run-all`, and rename the outputs back. The Task 3 calibration ranks the 50 cases of a run. The final-round images were processed this way as two batches of 50.
+The hash above and the `prelim-7.95236` image tags refer to the preliminary round (overall 7.9524). The final-round score (7.8367, table above) was obtained with the same weights and code, applied as described below.
+
+SHA-256 of the submitted final-round archive (100 cases, `Task1/`, `Task2/`, `Task3/` with `g_001` … `g_100`):
+
+```text
+bc65562dde89faa8edaeed8ea2017253c1a25b6a3aad730d6f35d38dc5f269a5
+```
+
+### Reproducing the final-round result (technical report, Section 3.1)
+
+The final-round input has 100 cases (`g_001` … `g_100`): the 50 preliminary cases (shuffled in among the final-round numbering, 25 in each half) and the 50 new final-round cases. The pipeline expects exactly 50 cases named `g_051` … `g_100`, and the Task 3 calibration ranks the 50 cases of one run, so the 100 cases were processed as **two batches of 50**: `g_001` … `g_050` and `g_051` … `g_100`. Each batch needs both Docker runs above (the R2-V2 image first, then the main image):
+
+1. Put the 50 cases of one batch into `DATA_DIR/validation/{images,masks,FFA_A,FFA_AV}`, renamed to `g_051.png` … `g_100.png` (`DATA_DIR/training/biomarker` must still contain the 50 training labels). For the first batch, `g_001` … `g_050` become `g_051` … `g_100`; the second batch already has these names.
+2. Run the two `docker run` commands above, using a separate `OUT_DIR` per batch and adding `--allow-hash-mismatch` to the `run-all` command (the output hash only matches for the preliminary data).
+3. For the first batch, rename the files in `Task1/`, `Task2/` and `Task3/` of `kirby.zip` back to `g_001` … `g_050`.
+4. Merge both batches into one archive with 300 entries.
+
+Do not change the batch composition: Task 3 values depend on the rank of each case within its batch.
 
 Without Docker (Python 3.10, `pip install -r requirements.txt`, PyTorch 2.2.0), R2-V2 has to be run first in a separate PyTorch 2.8 environment (`pip install -r docker/requirements-r2v2.txt`):
 
